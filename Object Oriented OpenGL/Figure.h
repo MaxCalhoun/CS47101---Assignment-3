@@ -14,6 +14,18 @@ class Figure
 		Figure();
 		Figure(const Vector3&, const Vector3&, const Vector3&);
 
+		void setTranslation(const Vector3&);
+		void setRotation(const Vector3&);
+		void setScale(const Vector3&);
+
+		void translate(const Vector3&);
+		void rotate(const Vector3&);
+		void scale(const Vector3&);
+
+		Vector3 getTranslation();
+		Vector3 getRotation();
+		Vector3 getScale();
+
 		virtual void draw() = 0;
 
 	protected:
@@ -65,14 +77,14 @@ class Robot : public Figure
 		Transformation leftKnee_;
 		Transformation rightKnee_;
 
-		int leftShoulderVelocity_;
-		int rightShoulderVelocity_;
-		int leftElbowVelocity_;
-		int rightElbowVelocity_;
-		int leftHipVelocity_;
-		int rightHipVelocity_;
-		int leftKneeVelocity_;
-		int rightKneeVelocity_;
+		float leftShoulderVelocity_;
+		float rightShoulderVelocity_;
+		float leftElbowVelocity_;
+		float rightElbowVelocity_;
+		float leftHipVelocity_;
+		float rightHipVelocity_;
+		float leftKneeVelocity_;
+		float rightKneeVelocity_;
 
 		bool isSolid_;
 };

@@ -18,7 +18,6 @@ class Vector3
 		Vector3 operator+(const Vector3&) const;
 		Vector3& operator+=(const Vector3&);
 
-		// Essentially Equal (not exact)
 		bool operator==(const Vector3&) const;
 
 		friend std::ostream& operator<<(std::ostream&, const Vector3&);

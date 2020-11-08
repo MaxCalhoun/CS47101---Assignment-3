@@ -9,6 +9,18 @@ Figure::Figure() { figureTransformation_ = Transformation(); }
 
 Figure::Figure(const Vector3& t, const Vector3& r, const Vector3& s) { figureTransformation_ = Transformation(t, r, s); }
 
+void Figure::setTranslation(const Vector3& position) { figureTransformation_.setTranslation(position); }
+void Figure::setRotation(const Vector3& rotation) { figureTransformation_.setRotation(rotation); }
+void Figure::setScale(const Vector3& scale) { figureTransformation_.setScale(scale); }
+
+void Figure::translate(const Vector3& t) { figureTransformation_.translate(t); }
+void Figure::rotate(const Vector3& r) { figureTransformation_.rotate(r); }
+void Figure::scale(const Vector3& s) { figureTransformation_.scale(s); }
+
+Vector3 Figure::getTranslation() { return figureTransformation_.getTranslation(); }
+Vector3 Figure::getRotation() { return figureTransformation_.getRotation(); }
+Vector3 Figure::getScale() { return figureTransformation_.getScale(); }
+
 Robot::Robot() : Figure()
 {
 	// Body Parts
@@ -208,18 +220,114 @@ void Robot::rotateRightKnee(const Vector3& r) { rightKnee_.rotate(r); }
 
 void Robot::animateWalking()
 {
+	const float standardVelocity = -0.4f;
+
+	// Left Hip
 	if (leftHipVelocity_ == 0)
-		leftHipVelocity_ = -1;
+		leftHipVelocity_ = standardVelocity;
 
-	std::cout << leftHip_.getRotation().getX() << "\t" << leftHipVelocity_ << std::endl;
+	if (leftHip_.getRotation().getX() > 314.7f && leftHip_.getRotation().getX() <= 315.3f)
+		leftHipVelocity_ = -standardVelocity;
 
-	if (leftHip_.getRotation().getX() == 0 && leftHipVelocity_ == 1)
-		leftHipVelocity_ = 1;
-	if (leftHip_.getRotation().getX() == 315 && leftHipVelocity_ == -1)
-		leftHipVelocity_ = -1;
+	if (leftHip_.getRotation().getX() > 44.7f && leftHip_.getRotation().getX() <= 45.3f)
+		leftHipVelocity_ = standardVelocity;
+
+	// Right Hip
+	if (rightHipVelocity_ == 0)
+		rightHipVelocity_ = -standardVelocity;
+
+	if (rightHip_.getRotation().getX() > 314.7f && rightHip_.getRotation().getX() <= 315.3f)
+		rightHipVelocity_ = -standardVelocity;
+
+	if (rightHip_.getRotation().getX() > 44.7f && rightHip_.getRotation().getX() <= 45.3f)
+		rightHipVelocity_ = standardVelocity;
+
+	// Left Knee
+	if (leftKneeVelocity_ == 0)
+		leftKneeVelocity_ = standardVelocity;
+
+	if (leftKnee_.getRotation().getX() < 0.3f && leftKnee_.getRotation().getX() >= -0.3f)
+		leftKneeVelocity_ = -standardVelocity;
+
+	if (leftKnee_.getRotation().getX() > 314.7f && leftKnee_.getRotation().getX() <= 315.3f)
+		leftKneeVelocity_ = standardVelocity;
+
+	if (leftKnee_.getRotation().getX() > 44.7f && leftKnee_.getRotation().getX() <= 45.3f)
+		leftKneeVelocity_ = standardVelocity;
+
+	// Right Knee
+	if (rightKneeVelocity_ == 0)
+		rightKneeVelocity_ = -standardVelocity;
+
+	if (rightKnee_.getRotation().getX() < 0.3f && rightKnee_.getRotation().getX() >= -0.3f)
+		rightKneeVelocity_ = -standardVelocity;
+
+	if (rightKnee_.getRotation().getX() > 314.7f && rightKnee_.getRotation().getX() <= 315.3f)
+		rightKneeVelocity_ = standardVelocity;
+
+	if (rightKnee_.getRotation().getX() > 44.7f && rightKnee_.getRotation().getX() <= 45.3f)
+		rightKneeVelocity_ = standardVelocity;
+
+	// Left Shoulder
+	if (leftShoulder_.getRotation().getZ() != 285)
+		leftShoulder_.setRotation(Vector3(0, 0, 285));
+
+	if (leftShoulderVelocity_ == 0)
+		leftShoulderVelocity_ = -standardVelocity;
+
+	if (leftShoulder_.getRotation().getY() > 314.7f && leftShoulder_.getRotation().getY() <= 315.3f)
+		leftShoulderVelocity_ = -standardVelocity;
+
+	if (leftShoulder_.getRotation().getY() > 44.7f && leftShoulder_.getRotation().getY() <= 45.3f)
+		leftShoulderVelocity_ = standardVelocity;
+
+	// Right Shoulder
+	if (rightShoulder_.getRotation().getZ() != 75)
+		rightShoulder_.setRotation(Vector3(0, 0, 75));
+
+	if (rightShoulderVelocity_ == 0)
+		rightShoulderVelocity_ = -standardVelocity;
+
+	if (rightShoulder_.getRotation().getY() > 314.7f && rightShoulder_.getRotation().getY() <= 315.3f)
+		rightShoulderVelocity_ = -standardVelocity;
+
+	if (rightShoulder_.getRotation().getY() > 44.7f && rightShoulder_.getRotation().getY() <= 45.3f)
+		rightShoulderVelocity_ = standardVelocity;
+
+	// Left Elbow
+	if (leftElbowVelocity_ == 0)
+		leftElbowVelocity_ = -standardVelocity;
+
+	if (leftElbow_.getRotation().getY() < 0.3f && leftElbow_.getRotation().getY() >= -0.3f)
+		leftElbowVelocity_ = standardVelocity;
+
+	if (leftElbow_.getRotation().getY() > 314.7f && leftElbow_.getRotation().getY() <= 315.3f)
+		leftElbowVelocity_ = -standardVelocity;
+
+	if (leftElbow_.getRotation().getY() > 44.7f && leftElbow_.getRotation().getY() <= 45.3f)
+		leftElbowVelocity_ = -standardVelocity;
+
+	// Right Elbow
+	if (rightElbowVelocity_ == 0)
+		rightElbowVelocity_ = -standardVelocity;
+
+	if (rightElbow_.getRotation().getY() < 0.3f && rightElbow_.getRotation().getY() >= -0.3f)
+		rightElbowVelocity_ = -standardVelocity;
+
+	if (rightElbow_.getRotation().getY() > 314.7f && rightElbow_.getRotation().getY() <= 315.3f)
+		rightElbowVelocity_ = standardVelocity;
+
+	if (rightElbow_.getRotation().getY() > 44.7f && rightElbow_.getRotation().getY() <= 45.3f)
+		rightElbowVelocity_ = standardVelocity;
 
 	leftHip_.rotate(Vector3(leftHipVelocity_, 0, 0));
-
+	rightHip_.rotate(Vector3(rightHipVelocity_, 0, 0));
+	leftKnee_.rotate(Vector3(leftKneeVelocity_, 0, 0));
+	rightKnee_.rotate(Vector3(rightKneeVelocity_, 0, 0));
+	leftShoulder_.rotate(Vector3(0, leftShoulderVelocity_, 0));
+	rightShoulder_.rotate(Vector3(0, rightShoulderVelocity_, 0));
+	leftElbow_.rotate(Vector3(0, leftElbowVelocity_, 0));
+	rightElbow_.rotate(Vector3(0, rightElbowVelocity_, 0));
 }
 
 Axis::Axis()
