@@ -99,3 +99,18 @@ class Axis : public Figure
 	private:
 		Shape* xAxis_, * yAxis_, * zAxis_;
 };
+
+class Tree : public Figure
+{
+	public:
+		Tree();
+		Tree(const Vector3&, const Vector3&, const Vector3&);
+
+		void draw() final;
+
+		void makeSolid();
+		void makeWireframe();
+
+	private:
+		Shape* trunk_, * leaves_;
+};

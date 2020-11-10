@@ -1,7 +1,7 @@
 /*
 	Max Calhoun
 	CS47101 - Computer Graphics
-	Assignment 2
+	Assignment 3
 	main.cpp
 */
 
@@ -20,11 +20,6 @@ static int windowHeight = 480;
 static float aspectRatio;
 
 // Camera Positioning
-//float lx = 0.0f, lz = -1.0f; // actual vector representing the camera's direction
-//float x = 0.0f, z = 5.0f; // XZ position of the camera
-//float angle = 0.0f; // angle for rotating triangle
-
-// Camera Positioning
 GLint leftMouseButton, rightMouseButton; //status of the mouse buttons
 int mouseX = 0, mouseY = 0; //last known X and Y of the mouse
 float cameraTheta, cameraPhi, cameraRadius; //camera position in spherical coordinates
@@ -39,11 +34,12 @@ const float walkVelocity = 0.01f;
 float xVelocity = walkVelocity;
 float zVelocity = 0;
 
-Shape* ground = new ToggleShape(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(10, 1, 10), new Color(91, 60, 60), new PlaneMesh(), new WirePlaneMesh());
+Shape* ground = new ToggleShape(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(10, 1, 10), new Color(191, 255, 128), new PlaneMesh(), new WirePlaneMesh());
 Figure* robot = new Robot(Vector3(0, 1.2f, 0), Vector3(0, 0, 0), Vector3(0.2f, 0.2f, 0.2f));
 Figure* axis = new Axis();
 Shape* linePath = new Shape(Vector3(0, 0, -2), Vector3(0, 0, 0), Vector3(4, 4, 4), new Purple(), new LineMesh());
 Shape* squarePath = new Shape(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(4, 4, 4), new Purple(), new WirePlaneMesh());
+Figure* tree = new Tree(Vector3(-4, 0, -4), Vector3(0, 0, 0), Vector3(3, 3, 3));
 
 void recomputeOrientation()
 {
@@ -168,12 +164,14 @@ void processInput(unsigned char key, int x, int y)
 		case '1': // Make Wireframe
 			static_cast<Robot*>(robot)->makeWireframe();
 			static_cast<ToggleShape*>(ground)->makeWireframe();
+			static_cast<Tree*>(tree)->makeWireframe();
 			ground->changeColor(new White);
 			break;
 		case '2': // Make Solid
 			static_cast<Robot*>(robot)->makeSolid();
 			static_cast<ToggleShape*>(ground)->makeSolid();
-			ground->changeColor(new Color(91, 60, 60));
+			static_cast<Tree*>(tree)->makeSolid();
+			ground->changeColor(new Color(191, 255, 128));
 			break;
 		case '3': // Toggle Axis
 			axisEnabled = !axisEnabled;
@@ -223,6 +221,7 @@ void displayFunction()
 	
 	robot->draw();
 	ground->draw();
+	tree->draw();
 
 	glutSwapBuffers();
 }

@@ -349,3 +349,44 @@ void Axis::draw()
 	}
 	glPopMatrix();
 }
+
+
+Tree::Tree() : Figure()
+{
+	trunk_ = new ToggleShape(Vector3(0, 0.25, 0), Vector3(0, 0, 0), Vector3(0.25, 0.5, 0.25), new Color(51, 0, 17), new CubeMesh(), new WireCubeMesh());
+	leaves_ = new ToggleShape(Vector3(0, 0.5, 0), Vector3(270, 0, 0), Vector3(1, 1, 1), new Green(), new ConeMesh(), new WireConeMesh());
+}
+
+Tree::Tree(const Vector3& t, const Vector3& r, const Vector3& s) : Tree()
+{
+	figureTransformation_ = Transformation(t, r, s);
+}
+
+void Tree::draw()
+{
+	glPushMatrix();
+	{
+		figureTransformation_.transform();
+		trunk_->draw();
+		leaves_->draw();
+	}
+	glPopMatrix();
+}
+
+void Tree::makeSolid()
+{
+	static_cast<ToggleShape*>(trunk_)->makeSolid();
+	trunk_->changeColor(new Color(51, 0, 17));
+
+	static_cast<ToggleShape*>(leaves_)->makeSolid();
+	leaves_->changeColor(new Green());
+}
+
+void Tree::makeWireframe()
+{
+	static_cast<ToggleShape*>(trunk_)->makeWireframe();
+	trunk_->changeColor(new White);
+
+	static_cast<ToggleShape*>(leaves_)->makeWireframe();
+	leaves_->changeColor(new White);
+}
